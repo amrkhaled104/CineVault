@@ -58,3 +58,25 @@ Here is the step-by-step prompt engineering used to build this project through V
 > Do not implement the API request yet.
 
 ---
+---
+
+### Step 5: Implement OMDb Movie Search Service
+**Prompt:**
+> Implement the OMDb movie search request inside:
+> src/services/omdbMovieService.ts
+> Create an exported async function:
+> searchMovies(query: string): Promise<Movie[]>
+> Requirements:
+> - use the OMDb API
+> - read the API key from VITE_OMDB_API_KEY
+> - encode the search query
+> - use the Movie and OmdbSearchResponse types
+> - return the Search array as Movie[]
+> - throw a readable error when the HTTP request fails
+> - throw a readable error when OMDb returns Response: "False"
+> For the API_URL use https://www.omdbapi.com/
+> Do not use React hooks.
+> Do not use useEffect.
+> Do not manage loading, error, or component state.
+
+---
