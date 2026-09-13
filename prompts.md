@@ -176,3 +176,26 @@ Here is the step-by-step prompt engineering used to build this project through V
 > - do not call fetch directly
 
 ---
+---
+
+### Step 10: Create Reusable MovieCard Component & Update HomeView
+**Prompt:**
+> Create a reusable MovieCard component.
+> Create:
+> src/components/MovieCard/MovieCard.tsx
+> Requirements:
+> - receive one Movie object through props
+> - display:
+>   - poster
+>   - title
+>   - year
+>   - type
+> - add a Favourite button, but do not connect it yet
+> - use the shared Movie type
+> - keep the component presentational
+> - do not call APIs
+> - do not use Firebase
+> - do not manage the movie list
+> Update HomeView to render MovieCard using .map().
+
+---
