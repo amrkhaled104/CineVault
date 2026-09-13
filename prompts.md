@@ -214,3 +214,21 @@ Here is the step-by-step prompt engineering used to build this project through V
 > - do not add authentication
 
 ---
+---
+
+### Step 12: Add Favourite Management Functions to Firebase Service
+**Prompt:**
+> Inside src/services/firebaseService.ts, add functions for managing favourite movies.
+> Create:
+> - addFavourite(movie: Movie): Promise<void>
+> - removeFavourite(imdbID: string): Promise<void>
+> - getFavourites(): Promise<Movie[]>
+> Requirements:
+> - use imdbID as the unique movie identifier
+> - keep all Firebase communication inside this service
+> - return typed data
+> - throw readable errors when operations fail
+> - do not use React hooks
+> - do not update the UI yet
+
+---
