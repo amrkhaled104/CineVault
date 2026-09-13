@@ -80,3 +80,22 @@ Here is the step-by-step prompt engineering used to build this project through V
 > Do not manage loading, error, or component state.
 
 ---
+---
+
+### Step 6: Implement Home Model
+**Prompt:**
+> Implement the Home model inside:
+> src/pages/Home/HomeModel.ts
+> Import searchMovies from omdbMovieService.
+> Create and export:
+> getMovies(query: string): Promise<Movie[]>
+> Responsibilities:
+> - trim the query
+> - validate that the query contains at least two characters
+> - call searchMovies with the cleaned query
+> - return the movie list
+> Do not use React hooks.
+> Do not use useState or useEffect.
+> Do not call fetch directly.
+
+---
