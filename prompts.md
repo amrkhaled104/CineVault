@@ -232,3 +232,21 @@ Here is the step-by-step prompt engineering used to build this project through V
 > - do not update the UI yet
 
 ---
+---
+
+### Step 13: Implement Favourites Model
+**Prompt:**
+> Implement the Favourites model inside:
+> src/pages/Favourites/FavouritesModel.ts
+> Import the Firebase service functions.
+> Create and export:
+> - loadFavourites(): Promise<Movie[]>
+> - saveFavourite(movie: Movie): Promise<void>
+> - deleteFavourite(imdbID: string): Promise<void>
+> Requirements:
+> - act as a wrapper around firebaseService
+> - do not call Firebase directly outside the service
+> - do not use React hooks
+> - do not manage loading or error state
+
+---
