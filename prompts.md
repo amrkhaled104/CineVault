@@ -250,34 +250,29 @@ Here is the step-by-step prompt engineering used to build this project through V
 > - do not manage loading or error state
 
 ---
-Implement a custom hook inside:
 
-src/pages/Favourites/useFavouritesViewModel.ts
+### Step 14: Implement Favourites ViewModel Custom Hook
+**Prompt:**
+> Implement a custom hook inside:
+> src/pages/Favourites/useFavouritesViewModel.ts
+> Create and export:
+> useFavouritesViewModel()
+> Manage with useState:
+> - favourites
+> - loading
+> - error
+> Create functions:
+> - loadMovies()
+> - removeMovie(imdbID)
+> Requirements:
+> - use FavouritesModel only
+> - load favourites when the screen opens
+> - use useEffect for the initial load
+> update local state after a movie is removed
+> - return all state and actions required by FavouritesView
+> - do not render JSX
+> - do not import firebaseService directly
 
-Create and export:
-
-useFavouritesViewModel()
-
-Manage with useState:
-
-- favourites
-- loading
-- error
-
-Create functions:
-
-- loadMovies()
-- removeMovie(imdbID)
-
-Requirements:
-
-- use FavouritesModel only
-- load favourites when the screen opens
-- use useEffect for the initial load
-- update local state after a movie is removed
-- return all state and actions required by FavouritesView
-- do not render JSX
-- do not import firebaseService directly
 ---
 
 ### Step 15: Implement Favourites View UI
@@ -295,7 +290,6 @@ Requirements:
 > - do not import FavouritesModel directly
 
 ---
-
 ---
 
 ### Step 16: Install and Configure Firebase Auth and Firestore
@@ -312,5 +306,183 @@ Requirements:
 > Create or update:
 > src/services/firebaseService.ts
 > Also create an .env.example file containing placeholder Firebase environment variables.
+
+---
+---
+
+### Step 17: Implement Authentication Service
+**Prompt:**
+> Create:
+> src/services/authService.ts
+> Implement and export these functions:
+> * registerUser(email: string, password: string)
+> * loginUser(email: string, password: string)
+> * logoutUser()
+> * subscribeToAuthChanges(callback)
+> Requirements:
+> * use Firebase Authentication
+> * use createUserWithEmailAndPassword for registration
+> * use signInWithEmailAndPassword for login
+> * use signOut for logout
+> * use onAuthStateChanged inside subscribeToAuthChanges
+> * return typed Firebase User data where appropriate
+> * convert Firebase errors into readable messages
+> * do not use React hooks
+> * do not use useState or useEffect
+> * do not render JSX
+
+---
+
+### Step 18: Create Authentication MVVM Structure Placeholders
+**Prompt:**
+> Create the MVVM file structure for authentication.
+> Create:
+> src/pages/Auth/AuthModel.ts
+> src/pages/Auth/useAuthViewModel.ts
+> src/pages/Auth/AuthView.tsx
+> Requirements:
+> * add minimal typed placeholder exports
+> * ensure the application still compiles
+> * do not implement registration or login yet
+> * do not add routing yet
+
+---
+
+### Step 19: Implement Authentication Model
+**Prompt:**
+> Implement src/pages/Auth/AuthModel.ts.
+> Import the authentication functions from authService.
+> Create and export:
+> * register(email: string, password: string)
+> * login(email: string, password: string)
+> * logout()
+> Responsibilities:
+> * trim and normalize the email address
+> * validate that the email and password are not empty
+> * validate that the password contains at least six characters
+> * call the corresponding authService function
+> * return the authenticated Firebase User
+> Do not use React hooks.
+> Do not call Firebase Authentication directly outside authService.
+> Do not manage UI state.
+
+---
+
+### Step 20: Implement Authentication ViewModel Custom Hook
+**Prompt:**
+> Implement the useAuthViewModel custom hook inside:
+> src/pages/Auth/useAuthViewModel.ts
+> Manage these values using useState:
+> * email
+> * password
+> * mode, which can be "login" or "register"
+> * loading
+> * error
+> Create these functions:
+> * handleSubmit()
+> * toggleMode()
+> Requirements:
+> * handleSubmit should call AuthModel.login when mode is "login"
+> * handleSubmit should call AuthModel.register when mode is "register"
+> * clear previous errors before submitting
+> * manage the loading state
+> * store readable errors
+> * clear the password after successful authentication
+> * return all state and functions needed by AuthView
+> * do not render JSX
+> * do not call Firebase directly
+> * do not import authService directly
+
+---
+
+### Step 21: Implement Authentication View UI
+**Prompt:**
+> Implement src/pages/Auth/AuthView.tsx.
+> Requirements:
+> * use useAuthViewModel
+> * display either "Login" or "Create Account" based on the current mode
+> * add a controlled email input
+> * add a controlled password input
+> * add a submit button
+> * disable the submit button while loading
+> * display readable validation or Firebase errors
+> * add a button for switching between login and registration
+> * submit the form using onSubmit
+> * prevent the default browser form submission
+> Do not call Firebase directly.
+> Do not import AuthModel or authService.
+
+---
+
+### Step 22: Create Global Authentication Context
+**Prompt:**
+> Create a global authentication context.
+> Create:
+> src/context/AuthContext.tsx
+> Requirements:
+> * use onAuthStateChanged through authService
+> * store the current Firebase user
+> * store an authLoading state while Firebase restores the session
+> * expose:
+>   * user
+>   * authLoading
+>   * logout
+> * wrap the application with AuthProvider
+> * unsubscribe from the authentication listener when the provider unmounts
+> * show a loading state while authentication is being initialized
+> * do not add favourites logic
+
+---
+
+### Step 23: Update Application Routing & Route Protection
+**Prompt:**
+> Update the application routing.
+> 
+> Requirements:
+> 
+> * add an /auth route that displays AuthView
+> * allow HomeView to remain publicly accessible
+> * protect the /favourites route
+> * when an unauthenticated user opens /favourites, redirect them to /auth
+> * when an authenticated user opens /auth, redirect them to /
+> * preserve the Header on every page
+> * use the user and authLoading values from AuthContext
+
+---
+
+### Step 24: Redirect Unauthenticated User on Favourite Click
+**Prompt:**
+> If I am unauth and click favourite button from the home page, redirect me to the favourites page
+
+---
+
+### Step 25: Update Favourites Service for User Profiles (Realtime DB)
+**Prompt:**
+> Update the existing favourites service so favourites are stored under the signed-in user's profile.
+> 
+> Use this Real time DB structure:
+> 
+> users/{userId}/favourites/{imdbID}
+> 
+> Update the existing functions so they receive userId:
+> 
+> - addFavourite(userId: string, movie: Movie)
+> - removeFavourite(userId: string, imdbID: string)
+> - getFavourites(userId: string)
+> 
+> Requirements:
+> 
+> - use userId as the parent user document ID
+> - use imdbID as the favourite document ID
+> - preserve the existing function behaviour
+> - do not use React hooks
+> - do not access auth.currentUser inside the service
+> - throw a readable error when userId is missing
+
+---
+
+### Step 26: Add Logout Button and Connect to Auth Context
+**Prompt:**
+> add logout button as well and connect it with logout function
 
 ---
