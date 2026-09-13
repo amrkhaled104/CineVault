@@ -250,3 +250,31 @@ Here is the step-by-step prompt engineering used to build this project through V
 > - do not manage loading or error state
 
 ---
+Implement a custom hook inside:
+
+src/pages/Favourites/useFavouritesViewModel.ts
+
+Create and export:
+
+useFavouritesViewModel()
+
+Manage with useState:
+
+- favourites
+- loading
+- error
+
+Create functions:
+
+- loadMovies()
+- removeMovie(imdbID)
+
+Requirements:
+
+- use FavouritesModel only
+- load favourites when the screen opens
+- use useEffect for the initial load
+- update local state after a movie is removed
+- return all state and actions required by FavouritesView
+- do not render JSX
+- do not import firebaseService directly
