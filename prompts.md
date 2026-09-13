@@ -156,3 +156,23 @@ Here is the step-by-step prompt engineering used to build this project through V
 > Do not create a reusable MovieCard component yet.
 
 ---
+---
+
+### Step 9: Add initialMovies Function to HomeModel
+**Prompt:**
+> Create an initialMovies() function inside HomeModel.
+> Requirements:
+> - automatically fetch at least 20 movies when the Home screen opens
+> - every application launch should display a different selection of movies
+> - generate the movie list by randomly selecting search keywords from a predefined seed list (for example: Batman, Avengers, Harry Potter, Star Wars, Spider-Man, Marvel, Disney, Matrix, Lord of the Rings, Fast, Mission Impossible, Pixar, Horror, Comedy, Action)
+> - use Promise.all to execute requests in parallel
+> - merge all results into a single array
+> - remove duplicate movies using imdbID
+> - shuffle the final array
+> - return exactly 20 unique movies
+> - keep all fetching logic inside HomeModel
+> - use the existing omdbMovieService
+> - do not use React hooks
+> - do not call fetch directly
+
+---
