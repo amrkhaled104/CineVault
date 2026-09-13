@@ -99,3 +99,37 @@ Here is the step-by-step prompt engineering used to build this project through V
 > Do not call fetch directly.
 
 ---
+---
+
+### Step 7: Implement Home ViewModel Custom Hook
+**Prompt:**
+> Implement a custom hook inside:
+> src/pages/Home/useHomeViewModel.ts
+> Create and export:
+> useHomeViewModel()
+> Manage these properties using useState:
+> - query
+> - movies
+> - loading
+> - error
+> Create a function:
+> handleSearch()
+> The function should:
+> - set loading to true
+> - clear the previous error
+> - call getMovies from HomeModel using the current query
+> - save the returned movie list in movies state
+> - store a readable error if the request fails
+> - set loading to false when finished
+> Return:
+> - query
+> - setQuery
+> - movies
+> - loading
+> - error
+> - handleSearch
+> Do not render JSX.
+> Do not call fetch directly.
+> Do not import omdbMovieService directly.
+
+---
