@@ -199,3 +199,18 @@ Here is the step-by-step prompt engineering used to build this project through V
 > Update HomeView to render MovieCard using .map().
 
 ---
+---
+
+### Step 11: Initialize Firebase Configuration Service
+**Prompt:**
+> Create and configure Firebase for the application.
+> Create:
+> src/services/firebaseService.ts
+> Requirements:
+> - initialize Firebase using environment variables
+> - export the database instance
+> - do not save or load any favourites yet
+> - do not modify HomeView
+> - do not add authentication
+
+---
