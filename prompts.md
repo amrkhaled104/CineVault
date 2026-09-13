@@ -133,3 +133,26 @@ Here is the step-by-step prompt engineering used to build this project through V
 > Do not import omdbMovieService directly.
 
 ---
+---
+
+### Step 8: Implement Home View UI
+**Prompt:**
+> Implement the Home view inside:
+> src/pages/Home/HomeView.tsx
+> Requirements:
+> - import and use useHomeViewModel
+> - display the current search input
+> - connect the input value to query
+> - update query using setQuery
+> - call handleSearch when the Search button is clicked
+> - also allow searching by submitting the form
+> - display a loading message while loading is true
+> - display the error message when error exists
+> - render the movie list using .map()
+> - display the movie title, year, type, and poster
+> Do not call fetch directly.
+> Do not import HomeModel or omdbMovieService.
+> Do not implement favourites yet.
+> Do not create a reusable MovieCard component yet.
+
+---
