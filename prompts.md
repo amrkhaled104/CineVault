@@ -295,3 +295,22 @@ Requirements:
 > - do not import FavouritesModel directly
 
 ---
+
+---
+
+### Step 16: Install and Configure Firebase Auth and Firestore
+**Prompt:**
+> Install Firebase and update the existing Firebase configuration.
+> Requirements:
+> * initialize Firebase Authentication using getAuth
+> * initialize Cloud Firestore using getFirestore
+> * export auth and db
+> * read Firebase configuration from Vite environment variables
+> * use the modern modular Firebase SDK
+> * do not add registration or login UI yet
+> * do not add anything new regarding favourites logic yet
+> Create or update:
+> src/services/firebaseService.ts
+> Also create an .env.example file containing placeholder Firebase environment variables.
+
+---
