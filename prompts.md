@@ -48,3 +48,13 @@ Here is the step-by-step prompt engineering used to build this project through V
 > Do not add Firebase, state, movie cards, or other functionality.
 
 ---
+---
+
+### Step 4: OMDb Movie Service Placeholder
+**Prompt:**
+> Create a services folder and an empty OMDb movie service file:
+> src/services/omdbMovieService.ts
+> Add a short comment explaining that this file will contain communication with the OMDb API.
+> Do not implement the API request yet.
+
+---
