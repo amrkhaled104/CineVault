@@ -278,3 +278,20 @@ Requirements:
 - return all state and actions required by FavouritesView
 - do not render JSX
 - do not import firebaseService directly
+---
+
+### Step 15: Implement Favourites View UI
+**Prompt:**
+> Implement the Favourites view inside:
+> src/pages/Favourites/FavouritesView.tsx
+> Requirements:
+> - use useFavouritesViewModel
+> - display a loading message while loading
+> - display an error message when error exists
+> - render favourites using MovieCard and .map()
+> - show a friendly empty message when there are no favourites
+> - allow removing a movie from favourites
+> - do not call Firebase directly
+> - do not import FavouritesModel directly
+
+---
