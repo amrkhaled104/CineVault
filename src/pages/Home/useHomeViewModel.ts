@@ -1,28 +1,38 @@
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import { getMovies, initialMovies, type Movie } from './HomeModel'
 import {
   loadFavourites,
   saveFavourite,
   deleteFavourite,
 } from '../Favourites/FavouritesModel'
+import { useAuth } from '../../context/AuthContext'
 
 export function useHomeViewModel() {
   const [searchParams] = useSearchParams()
   const searchQuery = searchParams.get('search')?.trim() || ''
+  const navigate = useNavigate()
+  const { user } = useAuth()
 
   const [movies, setMovies] = useState<Movie[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [favouriteIds, setFavouriteIds] = useState<Set<string>>(new Set())
 
-  // Load existing favourite IDs on mount
+  // Load existing favourite IDs on mount or when auth state changes
   useEffect(() => {
     let isMounted = true
 
     const syncFavourites = async () => {
+      if (!user) {
+        if (isMounted) {
+          setFavouriteIds(new Set())
+        }
+        return
+      }
+
       try {
-        const favs = await loadFavourites()
+        const favs = await loadFavourites(user.uid)
         if (isMounted) {
           setFavouriteIds(new Set(favs.map((f) => f.imdbID)))
         }
@@ -36,7 +46,7 @@ export function useHomeViewModel() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [user])
 
   // Load movies on query change or initial load
   useEffect(() => {
@@ -81,6 +91,11 @@ export function useHomeViewModel() {
 
   // Toggle favourite status and persist to Firebase Realtime Database
   const toggleFavourite = async (movie: Movie) => {
+    if (!user) {
+      navigate('/favourites')
+      return
+    }
+
     const isFav = favouriteIds.has(movie.imdbID)
 
     // Optimistically update local state
@@ -96,9 +111,9 @@ export function useHomeViewModel() {
 
     try {
       if (isFav) {
-        await deleteFavourite(movie.imdbID)
+        await deleteFavourite(user.uid, movie.imdbID)
       } else {
-        await saveFavourite(movie)
+        await saveFavourite(user.uid, movie)
       }
     } catch (err) {
       console.error('[useHomeViewModel] Failed to persist favourite:', err)

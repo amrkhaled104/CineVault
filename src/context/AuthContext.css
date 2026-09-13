@@ -1,0 +1,33 @@
+.auth-global-loading {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  gap: 1.25rem;
+}
+
+.auth-global-spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: authGlobalSpin 0.8s linear infinite;
+}
+
+@keyframes authGlobalSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.auth-global-loading-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+}

@@ -4,18 +4,25 @@ import {
   deleteFavourite,
   type Movie,
 } from './FavouritesModel'
+import { useAuth } from '../../context/AuthContext'
 
 export function useFavouritesViewModel() {
+  const { user } = useAuth()
   const [favourites, setFavourites] = useState<Movie[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
   const loadMovies = useCallback(async () => {
+    if (!user) {
+      setFavourites([])
+      return
+    }
+
     setLoading(true)
     setError(null)
 
     try {
-      const data = await loadFavourites()
+      const data = await loadFavourites(user.uid)
       setFavourites(data)
     } catch (err) {
       const message =
@@ -24,11 +31,13 @@ export function useFavouritesViewModel() {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [user])
 
   const removeMovie = async (imdbID: string) => {
+    if (!user) return
+
     try {
-      await deleteFavourite(imdbID)
+      await deleteFavourite(user.uid, imdbID)
       setFavourites((prev) => prev.filter((movie) => movie.imdbID !== imdbID))
     } catch (err) {
       const message =

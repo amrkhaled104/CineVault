@@ -1,5 +1,6 @@
 import { useState, useEffect, type FormEvent } from 'react'
 import { NavLink, Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import './Header.css'
 
 interface HeaderProps {
@@ -11,6 +12,7 @@ function Header({ className = '' }: HeaderProps) {
   const currentSearchParam = searchParams.get('search') || ''
   const [searchTerm, setSearchTerm] = useState(currentSearchParam)
   const navigate = useNavigate()
+  const { user, logout } = useAuth()
 
   // Keep input in sync with URL search parameter
   useEffect(() => {
@@ -24,6 +26,15 @@ function Header({ className = '' }: HeaderProps) {
       navigate(`/?search=${encodeURIComponent(trimmed)}`)
     } else {
       navigate('/')
+    }
+  }
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      navigate('/')
+    } catch (err) {
+      console.error('Failed to log out:', err)
     }
   }
 
@@ -73,39 +84,77 @@ function Header({ className = '' }: HeaderProps) {
           </nav>
         </div>
 
-        <form className="header-search-form" role="search" onSubmit={handleSearchSubmit}>
-          <div className="search-input-wrapper">
-            <svg
-              className="search-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
+        <div className="header-right">
+          <form className="header-search-form" role="search" onSubmit={handleSearchSubmit}>
+            <div className="search-input-wrapper">
+              <svg
+                className="search-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+              <input
+                type="text"
+                id="header-search-input"
+                className="header-search-input"
+                placeholder="Search movies..."
+                aria-label="Search movies"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <button
+              type="submit"
+              id="header-search-button"
+              className="header-search-button"
             >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-            <input
-              type="text"
-              id="header-search-input"
-              className="header-search-input"
-              placeholder="Search movies..."
-              aria-label="Search movies"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <button
-            type="submit"
-            id="header-search-button"
-            className="header-search-button"
-          >
-            Search
-          </button>
-        </form>
+              Search
+            </button>
+          </form>
+
+          {user ? (
+            <button
+              type="button"
+              id="header-logout-btn"
+              className="header-logout-button"
+              onClick={handleLogout}
+              aria-label="Log out of CineVault"
+            >
+              <svg
+                className="logout-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+              <span>Logout</span>
+            </button>
+          ) : (
+            <NavLink
+              to="/auth"
+              className={({ isActive }) =>
+                `header-login-btn ${isActive ? 'active' : ''}`
+              }
+              id="header-login-btn"
+            >
+              Login
+            </NavLink>
+          )}
+        </div>
       </div>
     </header>
   )

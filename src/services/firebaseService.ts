@@ -19,18 +19,20 @@ export const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfi
 // Export Realtime Database instance
 export const db = getDatabase(app)
 
-const FAVOURITES_PATH = 'favourites'
-
 /**
- * Adds or updates a movie in the favourites collection using imdbID as key.
+ * Adds or updates a movie in the favourites collection under users/{userId}/favourites/{imdbID}.
  */
-export async function addFavourite(movie: Movie): Promise<void> {
+export async function addFavourite(userId: string, movie: Movie): Promise<void> {
+  if (!userId || !userId.trim()) {
+    throw new Error('Cannot add favourite: User ID is required.')
+  }
+
   if (!movie || !movie.imdbID) {
     throw new Error('Cannot add favourite: Movie object must contain a valid imdbID.')
   }
 
   try {
-    const movieRef = ref(db, `${FAVOURITES_PATH}/${movie.imdbID}`)
+    const movieRef = ref(db, `users/${userId.trim()}/favourites/${movie.imdbID}`)
     await set(movieRef, movie)
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err)
@@ -39,15 +41,19 @@ export async function addFavourite(movie: Movie): Promise<void> {
 }
 
 /**
- * Removes a movie from favourites by its imdbID.
+ * Removes a movie from favourites under users/{userId}/favourites/{imdbID}.
  */
-export async function removeFavourite(imdbID: string): Promise<void> {
+export async function removeFavourite(userId: string, imdbID: string): Promise<void> {
+  if (!userId || !userId.trim()) {
+    throw new Error('Cannot remove favourite: User ID is required.')
+  }
+
   if (!imdbID || !imdbID.trim()) {
     throw new Error('Cannot remove favourite: A valid imdbID is required.')
   }
 
   try {
-    const movieRef = ref(db, `${FAVOURITES_PATH}/${imdbID.trim()}`)
+    const movieRef = ref(db, `users/${userId.trim()}/favourites/${imdbID.trim()}`)
     await remove(movieRef)
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err)
@@ -56,11 +62,15 @@ export async function removeFavourite(imdbID: string): Promise<void> {
 }
 
 /**
- * Retrieves all favourite movies from the database.
+ * Retrieves all favourite movies under users/{userId}/favourites from the database.
  */
-export async function getFavourites(): Promise<Movie[]> {
+export async function getFavourites(userId: string): Promise<Movie[]> {
+  if (!userId || !userId.trim()) {
+    throw new Error('Cannot load favourites: User ID is required.')
+  }
+
   try {
-    const favouritesRef = ref(db, FAVOURITES_PATH)
+    const favouritesRef = ref(db, `users/${userId.trim()}/favourites`)
     const snapshot = await get(favouritesRef)
 
     if (!snapshot.exists()) {
